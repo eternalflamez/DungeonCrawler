@@ -5,7 +5,7 @@
 	<Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
 	<ProductVersion>10.0.20506</ProductVersion>
 	<SchemaVersion>2.0</SchemaVersion>
-	<ProjectGuid>{59064988-CECF-FE19-62BA-AE35249189D2}</ProjectGuid>
+	<ProjectGuid>{AB5532A4-EBEC-0F95-E7F0-E88FC1165F30}</ProjectGuid>
 	<OutputType>Library</OutputType>
 	<AppDesignerFolder>Properties</AppDesignerFolder>
 	<RootNamespace></RootNamespace>
@@ -49,6 +49,7 @@
      <Compile Include="Assets\Scripts\CameraVision.cs" />
      <Compile Include="Assets\Scripts\LeapController.cs" />
      <Compile Include="Assets\Scripts\ObjectController.cs" />
+     <Compile Include="Assets\Scripts\PlayerHealth1.cs" />
      <Compile Include="Assets\Scripts\Spell.cs" />
      <Compile Include="Assets\Scripts\SpellParticle.cs" />
      <Compile Include="Assets\Scripts\Spell_ElectricBall.cs" />
