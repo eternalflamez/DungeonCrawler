@@ -1,0 +1,111 @@
+fileFormatVersion: 2
+guid: 16ab044a30cfefa4698de1edfe29e08f
+ModelImporter:
+  serializedVersion: 16
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: GeoSphere001
+    100004: Spring001
+    100006: Spring002
+    100008: Spring003
+    100010: Spring004
+    100012: Spring005
+    100014: Spring006
+    100016: Spring007
+    100018: Spring008
+    100020: Spring009
+    400000: //RootNode
+    400002: GeoSphere001
+    400004: Spring001
+    400006: Spring002
+    400008: Spring003
+    400010: Spring004
+    400012: Spring005
+    400014: Spring006
+    400016: Spring007
+    400018: Spring008
+    400020: Spring009
+    2300000: GeoSphere001
+    2300002: Spring001
+    2300004: Spring002
+    2300006: Spring003
+    2300008: Spring004
+    2300010: Spring005
+    2300012: Spring006
+    2300014: Spring007
+    2300016: Spring008
+    2300018: Spring009
+    3300000: GeoSphere001
+    3300002: Spring001
+    3300004: Spring002
+    3300006: Spring003
+    3300008: Spring004
+    3300010: Spring005
+    3300012: Spring006
+    3300014: Spring007
+    3300016: Spring008
+    3300018: Spring009
+    4300000: GeoSphere001
+    4300002: Spring001
+    4300004: Spring002
+    4300006: Spring003
+    4300008: Spring004
+    4300010: Spring005
+    4300012: Spring006
+    4300014: Spring007
+    4300016: Spring008
+    4300018: Spring009
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    optimizeGameObjects: 0
+    animationCompression: 1
+    animationRotationError: .5
+    animationPositionError: .5
+    animationScaleError: .5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: .00999999978
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+  tangentSpace:
+    normalSmoothAngle: 60
+    splitTangentsAcrossUV: 1
+    normalImportMode: 0
+    tangentImportMode: 1
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: .5
+    foreArmTwist: .5
+    upperLegTwist: .5
+    legTwist: .5
+    armStretch: .0500000007
+    legStretch: .0500000007
+    feetSpacing: 0
+    rootMotionBoneName: 
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  additionalBone: 0
+  userData: 
