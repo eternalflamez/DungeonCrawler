@@ -3,8 +3,7 @@
 Temp/
 *.ddl
 *.sln
-/Library/metadata/
-library/
+/Library/
 *.meta
 
 #build stuff
@@ -236,3 +235,9 @@ main/external/Makefile
 *.pidb
 *.resources
 test-results/
+Library/metadata/71/711762b3c19f77f4ea8819be53c709c4
+Library/metadata/71/711762b3c19f77f4ea8819be53c709c4
+Library/ScriptAssemblies/Assembly-CSharp.dll
+Library/ScriptAssemblies/Assembly-CSharp.dll
+Library/ScriptAssemblies/Assembly-CSharp.dll.mdb
+Library/metadata/40/40e3eb9774c48eb4295d687b7b198b6b
