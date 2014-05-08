@@ -1,5 +1,4 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using Leap;
 using System;
@@ -29,7 +28,7 @@ public class LeapController : MonoBehaviour {
 
 		if(Input.GetKey ("g"))
 		{
-			spells.Cast("ElecBall");
+			spells.Cast("Frost Ray");
 		}
 
 		spells.moveAllObjects();

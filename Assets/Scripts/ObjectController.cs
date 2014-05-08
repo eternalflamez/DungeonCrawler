@@ -84,7 +84,7 @@ namespace AssemblyCSharp
 					case "Fireball":
 						spell = new Spell_Fireball();
 						break;
-					case "ElecBall":
+					case "Frost Ray":
 						spell = new Spell_ElectricBall();
 						positionAdjustment = 2;
 						break;
