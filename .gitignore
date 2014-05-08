@@ -1,5 +1,11 @@
 #Autosave files
 *~
+Temp/
+*.ddl
+*.sln
+/Library/metadata/
+library/
+*.meta
 
 #build stuff
 obj/
