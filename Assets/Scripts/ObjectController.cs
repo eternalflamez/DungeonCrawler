@@ -41,7 +41,7 @@ namespace AssemblyCSharp
 				float distanceMoved = speed * Time.deltaTime;
 				GameObject particle = item.getObject();
 
-				particle.transform.position += speed * particle.transform.forward * Time.deltaTime;
+				particle.transform.position += speed * Camera.main.transform.forward * Time.deltaTime;
 
 				item.setDistance(distanceMoved);
 
@@ -78,11 +78,13 @@ namespace AssemblyCSharp
 				Spell spell = new Spell_Fireball(); // Default value.
 				bool cast = true; // Won't be cast if the spellname isn't recognised.
 				int positionAdjustment = 1; // How far the object is placed forward (in front of the player)
+				int rotation = 0;
 
 				switch (spellName) 
 				{
 					case "Fireball":
 						spell = new Spell_Fireball();
+						rotation = -90;
 						break;
 					case "Frost Ray":
 						spell = new Spell_ElectricBall();
@@ -100,6 +102,10 @@ namespace AssemblyCSharp
 					GameObject spellObj = Instantiate(spell.getObject(), Camera.main.transform.position, Camera.main.transform.rotation) as GameObject;
 					spellObj.transform.position += spellObj.transform.forward * positionAdjustment;
 					spellObj.tag = "Spell";
+
+					Quaternion q = spellObj.transform.rotation;
+
+					spellObj.transform.rotation = new Quaternion(rotation, q.y, q.z, q.w);
 					spell.setObject(spellObj);
 
 					timeLastSpell = 0;
