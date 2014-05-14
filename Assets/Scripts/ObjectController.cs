@@ -84,7 +84,7 @@ namespace AssemblyCSharp
 				{
 					case "Fireball":
 						spell = new Spell_Fireball();
-						rotation = -90;
+						rotation = 90;
 						break;
 					case "Frost Ray":
 						spell = new Spell_ElectricBall();
@@ -105,7 +105,7 @@ namespace AssemblyCSharp
 
 					Quaternion q = spellObj.transform.rotation;
 
-					spellObj.transform.rotation = new Quaternion(rotation, q.y, q.z, q.w);
+					spellObj.transform.Rotate(rotation, 0, 0);
 					spell.setObject(spellObj);
 
 					timeLastSpell = 0;
