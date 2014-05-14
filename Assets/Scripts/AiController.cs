@@ -12,4 +12,9 @@ public class AiController : MonoBehaviour {
 	void Update () {
 	
 	}
+
+	void SpawnAi(){
+
+	}
+
 }

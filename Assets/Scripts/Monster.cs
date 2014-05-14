@@ -13,10 +13,6 @@ public class Ai : MonoBehaviour {
 
 	}
 
-	void SpawnAi()
-	{
-	}
-
 	void DetectPlayer()
 	{
 	}
