@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
      <Compile Include="Assets\Scripts\CameraVision.cs" />
+     <Compile Include="Assets\Scripts\DragItem.cs" />
      <Compile Include="Assets\Scripts\LeapController.cs" />
      <Compile Include="Assets\Scripts\ObjectController.cs" />
      <Compile Include="Assets\Scripts\PlayerHealth1.cs" />
