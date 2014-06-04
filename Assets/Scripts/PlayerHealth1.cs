@@ -34,12 +34,10 @@ public class PlayerHealth1 : MonoBehaviour
 		//GUI.Box (new Rect (10, 10, healthBarLength, 20), curHealth, "/", maxHealth);
 		GUI.Box(new Rect(10, 10, healthBarLength, 20), "", g);
 		GUI.Box(new Rect(10, 10, healthBar, 20), curHealth + "/" + maxHealth);
-		
 	}
 	
 	public void AdjustcurHealth(int adj)
 	{
-		
 		curHealth += adj;
 		if(curHealth < 0)
 			curHealth =0;

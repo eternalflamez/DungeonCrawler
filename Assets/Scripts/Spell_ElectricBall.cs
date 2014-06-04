@@ -15,7 +15,7 @@ namespace AssemblyCSharp
 	public class Spell_ElectricBall : Spell
 	{
 		public Spell_ElectricBall ()
-			: base(1, 5, 30, "Wijs naar het scherm.", 15)
+			: base(1, 5, 60, "Wijs naar het scherm.", 15)
 		{
 			this.visuals = Resources.Load<GameObject>("energyBall");
 			this.particle = new SpellParticle(visuals, this.spellDistance, 15);

@@ -35,23 +35,28 @@ namespace AssemblyCSharp
 		{
 			foreach (Spell item in spells) 
 			{
-				float speed = item.getSpeed();
-				float moved = item.getDistanceMoved();
-				float distance = item.getDistance();
-				float distanceMoved = speed * Time.deltaTime;
-				GameObject particle = item.getObject();
-
-				particle.transform.position += speed * item.getDirection() * Time.deltaTime;
-
-				item.setDistance(distanceMoved);
-
-				moved += distanceMoved;
-				
-				Debug.Log (moved);
-				
-				if(moved >= distance)
+				if(item.getObject().tag == "UsedSpell")
 				{
 					toRemove.Add(item);
+				}
+				else
+				{
+					float speed = item.getSpeed();
+					float moved = item.getDistanceMoved();
+					float distance = item.getDistance();
+					float distanceMoved = speed * Time.deltaTime;
+					GameObject particle = item.getObject();
+
+					particle.transform.position += speed * item.getDirection() * Time.deltaTime;
+
+					item.setDistance(distanceMoved);
+
+					moved += distanceMoved;
+					
+					if(moved >= distance)
+					{
+						toRemove.Add(item);
+					}
 				}
 			}
 
@@ -101,7 +106,9 @@ namespace AssemblyCSharp
 					addObject(spell);
 					GameObject spellObj = Instantiate(spell.getObject(), Camera.main.transform.position, Camera.main.transform.rotation) as GameObject;
 					spellObj.transform.position += spellObj.transform.forward * positionAdjustment;
-					spellObj.tag = spell.getDamage().ToString();
+					spellObj.name = spell.getDamage().ToString();
+					spellObj.tag = "Spell";
+
 					spell.setDirection (Camera.main.transform.forward);
 					Quaternion q = spellObj.transform.rotation;
 

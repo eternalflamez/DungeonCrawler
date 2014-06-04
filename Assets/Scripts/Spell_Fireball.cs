@@ -15,7 +15,7 @@ namespace AssemblyCSharp
 	public class Spell_Fireball : Spell
 	{
 		public Spell_Fireball ()
-			: base(1, 5, 20, "Steek 1 vinger uit en draai deze in een cirkelvorm naar rechts.", 15)
+			: base(1, 5, 60, "Steek 1 vinger uit en draai deze in een cirkelvorm naar rechts.", 15)
 		{
 			this.visuals = Resources.Load<GameObject>("FireBall");
 			this.particle = new SpellParticle(visuals, this.spellDistance, 15);
