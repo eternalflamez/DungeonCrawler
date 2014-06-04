@@ -44,6 +44,8 @@ namespace AssemblyCSharp
 		/// </summary>
 		protected int experience;
 
+		protected Vector3 direction;
+
 		/// <summary>
 		/// The particle.
 		/// </summary>
@@ -95,7 +97,17 @@ namespace AssemblyCSharp
 		{
 			return particle.getSpeed();
 		}
-		
+
+		public void setDirection(Vector3 d)
+		{
+			this.direction = d;
+		}
+
+		public Vector3 getDirection()
+		{
+			return this.direction;
+		}
+
 		public float getDistanceMoved()
 		{
 			return particle.getDistanceMoved();

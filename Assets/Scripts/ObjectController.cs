@@ -41,7 +41,7 @@ namespace AssemblyCSharp
 				float distanceMoved = speed * Time.deltaTime;
 				GameObject particle = item.getObject();
 
-				particle.transform.position += speed * Camera.main.transform.forward * Time.deltaTime;
+				particle.transform.position += speed * item.getDirection() * Time.deltaTime;
 
 				item.setDistance(distanceMoved);
 
@@ -101,8 +101,8 @@ namespace AssemblyCSharp
 					addObject(spell);
 					GameObject spellObj = Instantiate(spell.getObject(), Camera.main.transform.position, Camera.main.transform.rotation) as GameObject;
 					spellObj.transform.position += spellObj.transform.forward * positionAdjustment;
-					spellObj.tag = "Spell";
-
+					spellObj.tag = spell.getDamage();
+					spell.setDirection (Camera.main.transform.forward);
 					Quaternion q = spellObj.transform.rotation;
 
 					spellObj.transform.Rotate(rotation, 0, 0);

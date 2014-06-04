@@ -141,8 +141,8 @@ public class LeapController : MonoBehaviour {
 				               + ", " + screentap.State
 				               + ", position: " + screentap.Position
 				               + ", direction: " + screentap.Direction);
+				spells.Cast("Frost Ray");
 
-				spells.Cast("ElecBall");
 				break;
 			default:
 				Debug.Log ("Unknown gesture type.");
