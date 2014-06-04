@@ -20,8 +20,8 @@ public class LeapController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
 		spells.updateTimer(Time.deltaTime);
+
 		if(Input.GetKey("f"))
 		{
 			spells.Cast("Fireball");

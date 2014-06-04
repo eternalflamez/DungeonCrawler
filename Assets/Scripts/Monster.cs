@@ -10,6 +10,7 @@ public class Monster : MonoBehaviour {
 	public float attackSpeed;
 	public float lastAttacked;
 	public float attackRadius;
+	public float detectRadius;
 
 	// Use this for initialization
 	void Start () {
@@ -19,6 +20,7 @@ public class Monster : MonoBehaviour {
 		attackSpeed = 1;
 		attackRadius = 5;
 		lastAttacked = 0;
+		detectRadius = 100;
 	}
 	
 	// Update is called once per frame
@@ -31,31 +33,55 @@ public class Monster : MonoBehaviour {
 
 	void MoveToPlayer()
 	{
+		float xMoved = 0;
+		float zMoved = 0;
+
 		float pX = player.transform.position.x;
 		float pZ = player.transform.position.z;
 
 		float x = transform.position.x;
 		float z = transform.position.z;
 
-		if (pX - speed > x)
+		if (pX - speed > x && pX - x < detectRadius)
 		{
-			x += speed * Time.deltaTime;
+			xMoved = speed * Time.deltaTime;
 		}
-		else if (pX + speed < x)
+		else if (pX + speed < x && x - pX < detectRadius)
 		{
-			x -= speed * Time.deltaTime;
-		}
-
-		if (pZ - speed > z)
-		{
-			z += speed * Time.deltaTime;
-		}
-		else if (pZ + speed < z)
-		{
-			z -= speed * Time.deltaTime;
+			xMoved = -1 * speed * Time.deltaTime;
 		}
 
-		transform.position = new Vector3(x, transform.position.y, z);
+		if (pZ - speed > z && pZ - z < detectRadius)
+		{
+			zMoved = speed * Time.deltaTime;
+		}
+		else if (pZ + speed < z && z - pZ < detectRadius)
+		{
+			zMoved = -1 * speed * Time.deltaTime;
+		}
+
+		Vector3 moveX = new Vector3(xMoved, 0, 0);
+		Vector3 moveZ = new Vector3(0, 0, zMoved);
+
+		RaycastHit hit;
+		Ray xRay = new Ray(this.transform.position, moveX);
+		Ray zRay = new Ray(this.transform.position, moveZ);
+
+		if(xMoved != 0)
+		{
+			if(!Physics.Raycast(xRay, out hit, Math.Abs(xMoved) + transform.localScale.x / 2))
+			{
+				transform.position += moveX;
+			}
+		}
+
+		if(zMoved != 0)
+		{
+			if(!Physics.Raycast(zRay, out hit, Math.Abs(zMoved) + transform.localScale.z / 2))
+			{
+				transform.position += moveZ;
+			}
+		}
 	}
 
 	void AimAtPlayer()
@@ -80,8 +106,8 @@ public class Monster : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col)
 	{
+		Debug.Log ("Trigger enter");
 		if (col.tag == "MainCamera") {
-			Debug.Log ("Trigger enter");
 			// Destroy(col.gameObject.CubePlac);
 		}
 		else if(col.tag == "Spell")
