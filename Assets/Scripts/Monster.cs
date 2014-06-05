@@ -11,24 +11,36 @@ public class Monster : MonoBehaviour {
 	public float lastAttacked;
 	public float attackRadius;
 	public float detectRadius;
+	public bool dead;
+	private bool playedAnimation = false;
 
 	// Use this for initialization
 	void Start () {
-		health = 10;
+		health = 30;
 		damage = 6;
 		speed = 3;
 		attackSpeed = 1;
 		attackRadius = 5;
 		lastAttacked = 0;
 		detectRadius = 100;
+		dead = false;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		lastAttacked += Time.deltaTime;
-
-		MoveToPlayer();
-		AimAtPlayer();
+		if(!dead)
+		{
+			lastAttacked += Time.deltaTime;
+			MoveToPlayer();
+			AimAtPlayer();
+		}
+		else if(!playedAnimation)
+		{
+			playedAnimation = true;
+			animation.Play("die");
+			animation.wrapMode = WrapMode.Once;
+			animation.PlayQueued("dead");
+		}
 	}
 
 	void MoveToPlayer()
@@ -64,12 +76,18 @@ public class Monster : MonoBehaviour {
 		Vector3 moveZ = new Vector3(0, 0, zMoved);
 
 		RaycastHit hit;
-		Ray xRay = new Ray(this.transform.position, moveX);
-		Ray zRay = new Ray(this.transform.position, moveZ);
+
+		Vector3 faceRay = new Vector3(transform.position.x, transform.position.y + 3, transform.position.z);
+
+		Ray xRay = new Ray(faceRay, new Vector3(moveX.x, 3, 0));
+		Ray zRay = new Ray(faceRay, new Vector3(0, 3, moveZ.z));
+
+		Debug.DrawRay(faceRay, new Vector3(moveX.x + 2, 0, 0), Color.black);
+		Debug.DrawRay(faceRay, new Vector3(0, 0, moveZ.z + 1), Color.red);
 
 		if(xMoved != 0)
 		{
-			if(!Physics.Raycast(xRay, out hit, Math.Abs(xMoved) + transform.localScale.x / 2))
+			if(!Physics.Raycast(xRay, out hit, Math.Abs(xMoved)))
 			{
 				transform.position += moveX;
 			}
@@ -77,10 +95,19 @@ public class Monster : MonoBehaviour {
 
 		if(zMoved != 0)
 		{
-			if(!Physics.Raycast(zRay, out hit, Math.Abs(zMoved) + transform.localScale.z / 2))
+			if(!Physics.Raycast(zRay, out hit, Math.Abs(zMoved)))
 			{
 				transform.position += moveZ;
 			}
+		}
+
+		if(xMoved != 0 || zMoved != 0)
+		{
+			animation.Play("walk");
+		}
+		else
+		{
+			animation.PlayQueued("idle");
 		}
 	}
 
@@ -99,6 +126,10 @@ public class Monster : MonoBehaviour {
 				// ATTACK! 
 				lastAttacked = 0;
 
+				System.Random r = new System.Random();
+
+				animation.Play("hit" + r.Next(1, 3), PlayMode.StopAll);
+
 				player.SendMessage("AdjustcurHealth", damage * -1);
 			}
 		}
@@ -106,32 +137,19 @@ public class Monster : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col)
 	{
-		Debug.Log ("Trigger enter");
 		if (col.tag == "MainCamera") {
 			// Destroy(col.gameObject.CubePlac);
 		}
 		else if(col.tag == "Spell")
 		{
 			health -= float.Parse(col.name);
-			
-			Debug.Log(col.name);
+
 			if(health <= 0)
 			{
-				Destroy(this.gameObject);
+				dead = true;
 			}
 
 			col.tag = "UsedSpell";
 		}
 	}
-	
-	//basic collision
-	void OnCollisionEnter(Collision col)
-	{
-		Debug.Log ("Collision enter");
-		if (col.gameObject.tag == "MainCamera")
-		{
-			Debug.Log ("Collision C");
-		}
-	}
-
 }
