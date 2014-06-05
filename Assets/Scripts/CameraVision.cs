@@ -59,7 +59,7 @@ public class CameraVision : MonoBehaviour
 				transform.position += transform.right * -5 * Time.deltaTime;
 			}
 		}
-
+		/*
 		if(Input.GetKeyDown("i"))
 		{
 			if(invCamera.activeSelf)
@@ -71,5 +71,6 @@ public class CameraVision : MonoBehaviour
 				invCamera.SetActive(true);
 			}
 		}
+		*/
 	}
 }

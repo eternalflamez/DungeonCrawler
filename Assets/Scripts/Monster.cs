@@ -16,13 +16,13 @@ public class Monster : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		health = 30;
+		health = 20;
 		damage = 6;
 		speed = 3;
 		attackSpeed = 1;
 		attackRadius = 5;
 		lastAttacked = 0;
-		detectRadius = 100;
+		detectRadius = 25;
 		dead = false;
 	}
 	
@@ -45,8 +45,8 @@ public class Monster : MonoBehaviour {
 
 	void MoveToPlayer()
 	{
-		float xMoved = 0;
-		float zMoved = 0;
+		float xSpeed = 0;
+		float zSpeed = 0;
 
 		float pX = player.transform.position.x;
 		float pZ = player.transform.position.z;
@@ -54,54 +54,62 @@ public class Monster : MonoBehaviour {
 		float x = transform.position.x;
 		float z = transform.position.z;
 
+		bool testXMoved = false;
+
 		if (pX - speed > x && pX - x < detectRadius)
 		{
-			xMoved = speed * Time.deltaTime;
+			xSpeed = speed * Time.deltaTime;
+			testXMoved = true;
 		}
 		else if (pX + speed < x && x - pX < detectRadius)
 		{
-			xMoved = -1 * speed * Time.deltaTime;
+			xSpeed = -1 * speed * Time.deltaTime;
+			testXMoved = true;
 		}
 
-		if (pZ - speed > z && pZ - z < detectRadius)
+		if(testXMoved)
 		{
-			zMoved = speed * Time.deltaTime;
-		}
-		else if (pZ + speed < z && z - pZ < detectRadius)
-		{
-			zMoved = -1 * speed * Time.deltaTime;
+			if (pZ - speed > z && pZ - z < detectRadius)
+			{
+				zSpeed = speed * Time.deltaTime;
+			}
+			else if (pZ + speed < z && z - pZ < detectRadius)
+			{
+				zSpeed = -1 * speed * Time.deltaTime;
+			}
 		}
 
-		Vector3 moveX = new Vector3(xMoved, 0, 0);
-		Vector3 moveZ = new Vector3(0, 0, zMoved);
+		Vector3 moveX = new Vector3(xSpeed, 0, 0);
+		Vector3 moveZ = new Vector3(0, 0, zSpeed);
 
 		RaycastHit hit;
 
-		Vector3 faceRay = new Vector3(transform.position.x, transform.position.y + 3, transform.position.z);
+		Vector3 faceRayStarPos = new Vector3(transform.position.x - xSpeed, transform.position.y + 3, transform.position.z - zSpeed);
 
-		Ray xRay = new Ray(faceRay, new Vector3(moveX.x, 3, 0));
-		Ray zRay = new Ray(faceRay, new Vector3(0, 3, moveZ.z));
+		Ray xRay = new Ray(faceRayStarPos, new Vector3(moveX.x * 2, 3, 0));
+		Ray zRay = new Ray(faceRayStarPos, new Vector3(0, 3, moveZ.z * 2));
 
-		Debug.DrawRay(faceRay, new Vector3(moveX.x + 2, 0, 0), Color.black);
-		Debug.DrawRay(faceRay, new Vector3(0, 0, moveZ.z + 1), Color.red);
+		Vector3 debugRay = new Vector3(faceRayStarPos.x - xSpeed * 30, faceRayStarPos.y, faceRayStarPos.z - zSpeed * 30);
+		Debug.DrawRay(debugRay, new Vector3(moveX.x * 31, 0, 0), Color.black);
+		Debug.DrawRay(debugRay, new Vector3(0, 0, moveZ.z * 31), Color.red);
 
-		if(xMoved != 0)
+		if(xSpeed != 0)
 		{
-			if(!Physics.Raycast(xRay, out hit, Math.Abs(xMoved)))
+			if(!Physics.Raycast(xRay, out hit, Math.Abs(xSpeed)))
 			{
 				transform.position += moveX;
 			}
 		}
 
-		if(zMoved != 0)
+		if(zSpeed != 0)
 		{
-			if(!Physics.Raycast(zRay, out hit, Math.Abs(zMoved)))
+			if(!Physics.Raycast(zRay, out hit, Math.Abs(zSpeed)))
 			{
 				transform.position += moveZ;
 			}
 		}
 
-		if(xMoved != 0 || zMoved != 0)
+		if(xSpeed != 0 || zSpeed != 0)
 		{
 			animation.Play("walk");
 		}

@@ -29,7 +29,7 @@ public class LeapController : MonoBehaviour {
 
 		if(Input.GetKey ("g"))
 		{
-			spells.Cast("Frost Ray");
+			//spells.Cast("Frost Ray");
 		}
 
 		spells.moveAllObjects();
@@ -141,7 +141,7 @@ public class LeapController : MonoBehaviour {
 				               + ", " + screentap.State
 				               + ", position: " + screentap.Position
 				               + ", direction: " + screentap.Direction);
-				spells.Cast("Frost Ray");
+				//spells.Cast("Frost Ray");
 
 				break;
 			default:
