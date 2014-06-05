@@ -84,12 +84,19 @@ public class Monster : MonoBehaviour {
 
 		RaycastHit hit;
 
-		Vector3 faceRayStarPos = new Vector3(transform.position.x - xSpeed, transform.position.y + 3, transform.position.z - zSpeed);
+		Vector3 faceRayStartPos = new Vector3(
+				transform.position.x - xSpeed, 
+				transform.position.y + 3, 
+				transform.position.z - zSpeed);
 
-		Ray xRay = new Ray(faceRayStarPos, new Vector3(moveX.x * 2, 3, 0));
-		Ray zRay = new Ray(faceRayStarPos, new Vector3(0, 3, moveZ.z * 2));
+		Ray xRay = new Ray(faceRayStartPos, new Vector3(moveX.x * 2, 3, 0));
+		Ray zRay = new Ray(faceRayStartPos, new Vector3(0, 3, moveZ.z * 2));
 
-		Vector3 debugRay = new Vector3(faceRayStarPos.x - xSpeed * 30, faceRayStarPos.y, faceRayStarPos.z - zSpeed * 30);
+		Vector3 debugRay = new Vector3(
+				faceRayStartPos.x - xSpeed * 30, 
+				faceRayStartPos.y, 
+				faceRayStartPos.z - zSpeed * 30);
+
 		Debug.DrawRay(debugRay, new Vector3(moveX.x * 31, 0, 0), Color.black);
 		Debug.DrawRay(debugRay, new Vector3(0, 0, moveZ.z * 31), Color.red);
 

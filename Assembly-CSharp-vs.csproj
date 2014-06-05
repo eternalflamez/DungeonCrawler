@@ -57,6 +57,7 @@
      <Compile Include="Assets\Scripts\SpellParticle.cs" />
      <Compile Include="Assets\Scripts\Spell_ElectricBall.cs" />
      <Compile Include="Assets\Scripts\Spell_Fireball.cs" />
+     <None Include="Assets\Medieval Environment\Shaders\Blend SM2.shader" />
  <Reference Include="LeapCSharp.NET3.5">
  <HintPath>Assets\LeapCSharp.NET3.5.dll</HintPath>
  </Reference>
