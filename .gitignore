@@ -3,7 +3,7 @@
 Temp/
 *.ddl
 *.sln
-/Library/
+/Library/*
 *.meta
 
 #build stuff
