@@ -41,14 +41,6 @@ public class LeapController : MonoBehaviour {
 
 		Frame frame = controller.Frame();
 
-
-		Debug.Log ("Frame id: " + frame.Id
-		               + ", timestamp: " + frame.Timestamp
-		               + ", hands: " + frame.Hands.Count
-		               + ", fingers: " + frame.Fingers.Count
-		               + ", tools: " + frame.Tools.Count
-		               + ", gestures: " + frame.Gestures ().Count);
-
 		if (!frame.Hands.IsEmpty) {
 			// Get the first hand
 			Hand hand = frame.Hands [0];
