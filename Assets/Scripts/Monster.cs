@@ -12,18 +12,26 @@ public class Monster : MonoBehaviour {
 	public float attackRadius;
 	public float detectRadius;
 	public bool dead;
+    protected NavMeshAgent agent;
 	private bool playedAnimation = false;
+    private Vector3 lastFramePosition;
 
 	// Use this for initialization
 	void Start () {
+        agent = (NavMeshAgent) GetComponent("NavMeshAgent");
 		health = 20;
-		damage = 6;
-		speed = 3;
+		damage = 12;
+		speed = 5;
 		attackSpeed = 1;
-		attackRadius = 5;
+		attackRadius = 2;
 		lastAttacked = 0;
-		detectRadius = 25;
+        if (detectRadius == 0)
+        {
+            detectRadius = 25;
+        }
 		dead = false;
+        lastFramePosition = transform.position;
+        agent.speed = this.speed;
 	}
 	
 	// Update is called once per frame
@@ -32,7 +40,6 @@ public class Monster : MonoBehaviour {
 		{
 			lastAttacked += Time.deltaTime;
 			MoveToPlayer();
-			AimAtPlayer();
 		}
 		else if(!playedAnimation)
 		{
@@ -43,90 +50,39 @@ public class Monster : MonoBehaviour {
 		}
 	}
 
-	void MoveToPlayer()
+	protected void MoveToPlayer()
 	{
-		float xSpeed = 0;
-		float zSpeed = 0;
+        Vector3 currentFrame = transform.position;
+        float distance = Vector3.Distance(currentFrame, lastFramePosition);
 
-		float pX = player.transform.position.x;
-		float pZ = player.transform.position.z;
+        lastFramePosition = currentFrame;
+        float currentSpeed = Mathf.Abs(distance) / Time.deltaTime;
 
-		float x = transform.position.x;
-		float z = transform.position.z;
+        if (Vector3.Distance(player.transform.position, transform.position) < detectRadius)
+        {
+            if (Mathf.Abs(player.transform.position.y - transform.position.y) < 4 && !AimAtPlayer())
+            {
+                agent.SetDestination(player.transform.position);
 
-		bool testXMoved = false;
+                if (currentSpeed > 0.1)
+                {
+                    animation.Play("walk");
+                }
+            }
+            else
+            {
+                agent.SetDestination(transform.position);
+            }
+        }
 
-		if (pX - speed > x && pX - x < detectRadius)
-		{
-			xSpeed = speed * Time.deltaTime;
-			testXMoved = true;
-		}
-		else if (pX + speed < x && x - pX < detectRadius)
-		{
-			xSpeed = -1 * speed * Time.deltaTime;
-			testXMoved = true;
-		}
-
-		if(testXMoved)
-		{
-			if (pZ - speed > z && pZ - z < detectRadius)
-			{
-				zSpeed = speed * Time.deltaTime;
-			}
-			else if (pZ + speed < z && z - pZ < detectRadius)
-			{
-				zSpeed = -1 * speed * Time.deltaTime;
-			}
-		}
-
-		Vector3 moveX = new Vector3(xSpeed, 0, 0);
-		Vector3 moveZ = new Vector3(0, 0, zSpeed);
-
-		RaycastHit hit;
-
-		Vector3 faceRayStartPos = new Vector3(
-				transform.position.x - xSpeed, 
-				transform.position.y + 3, 
-				transform.position.z - zSpeed);
-
-		Ray xRay = new Ray(faceRayStartPos, new Vector3(moveX.x * 2, 3, 0));
-		Ray zRay = new Ray(faceRayStartPos, new Vector3(0, 3, moveZ.z * 2));
-
-		Vector3 debugRay = new Vector3(
-				faceRayStartPos.x - xSpeed * 30, 
-				faceRayStartPos.y, 
-				faceRayStartPos.z - zSpeed * 30);
-
-		Debug.DrawRay(debugRay, new Vector3(moveX.x * 31, 0, 0), Color.black);
-		Debug.DrawRay(debugRay, new Vector3(0, 0, moveZ.z * 31), Color.red);
-
-		if(xSpeed != 0)
-		{
-			if(!Physics.Raycast(xRay, out hit, Math.Abs(xSpeed)))
-			{
-				transform.position += moveX;
-			}
-		}
-
-		if(zSpeed != 0)
-		{
-			if(!Physics.Raycast(zRay, out hit, Math.Abs(zSpeed)))
-			{
-				transform.position += moveZ;
-			}
-		}
-
-		if(xSpeed != 0 || zSpeed != 0)
-		{
-			animation.Play("walk");
-		}
-		else
-		{
-			animation.PlayQueued("idle");
-		}
+        
+        if (currentSpeed <= 0.1)
+        {
+            animation.PlayQueued("idle");
+        }
 	}
 
-	void AimAtPlayer()
+	protected bool AimAtPlayer()
 	{
 		float pX = player.transform.position.x;
 		float pZ = player.transform.position.z;
@@ -148,9 +104,15 @@ public class Monster : MonoBehaviour {
 				player.SendMessage("AdjustcurHealth", damage * -1);
 			}
 		}
+
+        if (pX > x - attackRadius && pX < x + attackRadius && pZ > z - attackRadius && pZ < z + attackRadius)
+        {
+            return true;
+        }
+        return false;
 	}
 
-	void OnTriggerEnter(Collider col)
+	public virtual void OnTriggerEnter(Collider col)
 	{
 		if (col.tag == "MainCamera") {
 			// Destroy(col.gameObject.CubePlac);
@@ -162,6 +124,11 @@ public class Monster : MonoBehaviour {
 			if(health <= 0)
 			{
 				dead = true;
+                agent.SetDestination(transform.position);
+                agent.speed = 0;
+
+                SphereCollider sc = (SphereCollider) this.GetComponent("SphereCollider");
+                sc.enabled = false;
 			}
 
 			col.tag = "UsedSpell";

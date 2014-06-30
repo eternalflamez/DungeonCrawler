@@ -39,8 +39,12 @@ public class PlayerHealth1 : MonoBehaviour
 	public void AdjustcurHealth(int adj)
 	{
 		curHealth += adj;
-		if(curHealth < 0)
-			curHealth =0;
+
+        if (curHealth < 0)
+        {
+            curHealth = 0;
+            Application.LoadLevel("Dead");
+        }
 		
 		if(curHealth > maxHealth)
 			curHealth = maxHealth;

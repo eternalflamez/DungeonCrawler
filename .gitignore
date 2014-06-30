@@ -4,6 +4,7 @@ Temp/
 *.ddl
 *.sln
 /Library/*
+/Assets/*
 *.meta
 
 #build stuff

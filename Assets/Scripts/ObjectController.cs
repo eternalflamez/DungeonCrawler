@@ -106,11 +106,10 @@ namespace AssemblyCSharp
 					addObject(spell);
 					GameObject spellObj = Instantiate(spell.getObject(), Camera.main.transform.position, Camera.main.transform.rotation) as GameObject;
 					spellObj.transform.position += spellObj.transform.forward * positionAdjustment;
-					spellObj.name = spell.getDamage().ToString();
+					spellObj.name = (spell.getDamage() + 1).ToString();
 					spellObj.tag = "Spell";
 
 					spell.setDirection (Camera.main.transform.forward);
-					Quaternion q = spellObj.transform.rotation;
 
 					spellObj.transform.Rotate(rotation, 0, 0);
 					spell.setObject(spellObj);

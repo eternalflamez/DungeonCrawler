@@ -6,12 +6,13 @@ using AssemblyCSharp;
 
 public class LeapController : MonoBehaviour {
 	Controller controller;
-	ObjectController spells = new ObjectController();
+    ObjectController spells;
 
 	// Use this for initialization
 	void Start () {
 		controller = new Controller ();
-
+        this.gameObject.AddComponent("ObjectController");
+        spells = (ObjectController) this.gameObject.GetComponent("ObjectController");
 		controller.EnableGesture (Gesture.GestureType.TYPECIRCLE);
 		controller.EnableGesture (Gesture.GestureType.TYPEKEYTAP);
 		controller.EnableGesture (Gesture.GestureType.TYPESCREENTAP);
@@ -63,8 +64,8 @@ public class LeapController : MonoBehaviour {
 			//               + " mm, palm position: " + hand.PalmPosition);
 			
 			// Get the hand's normal vector and direction
-			Vector normal = hand.PalmNormal;
-			Vector direction = hand.Direction;
+			//Vector normal = hand.PalmNormal;
+			//Vector direction = hand.Direction;
 			
 			// Calculate the hand's pitch, roll, and yaw angles
 			//Debug.Log ("Hand pitch: " + direction.Pitch * 180.0f / (float)Math.PI + " degrees, "
@@ -99,12 +100,12 @@ public class LeapController : MonoBehaviour {
 					sweptAngle = (circle.Progress - previousUpdate.Progress) * 360;
 				}
 				
-				Debug.Log ("Circle id: " + circle.Id
+				/*Debug.Log ("Circle id: " + circle.Id
 				               + ", " + circle.State
 				               + ", progress: " + circle.Progress
 				               + ", radius: " + circle.Radius
 				               + ", angle: " + sweptAngle
-				               + ", " + clockwiseness);
+				               + ", " + clockwiseness);*/
 				break;
 			case Gesture.GestureType.TYPESWIPE:
 				SwipeGesture swipe = new SwipeGesture (gesture);
@@ -116,7 +117,7 @@ public class LeapController : MonoBehaviour {
 				               + ", speed: " + swipe.Speed);
 
 
-				Vector3 direction = new Vector3(swipe.Direction.x, 0, 0);
+				//Vector3 direction = new Vector3(swipe.Direction.x, 0, 0);
 
 
 				break;

@@ -7,15 +7,9 @@ public class DragItem : MonoBehaviour
 {
 	public Vector3 screenPoint;
 	public Vector3 offset;
-	Vector3 lastPosition;
-	int xMoved = 0;
-	int yMoved = 0;
-	Vector3 xOffset = new Vector3(10/1920, 0, 0);
-	Vector3 yOffset = new Vector3(0, 10/1080, 0);
 
 	void OnMouseDown()
 	{
-		lastPosition = gameObject.transform.position;
 		screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position);
 		
 		offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
