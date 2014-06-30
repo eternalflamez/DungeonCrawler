@@ -14,7 +14,12 @@ public class CameraVision : MonoBehaviour
 
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKey ("q")) 
+        if (Input.GetKey(KeyCode.Escape))
+        {
+            Application.LoadLevel("Menu");
+        }
+
+        if (Input.GetKey ("q")) 
 		{
 			transform.Rotate(0, -2, 0);
 		}
@@ -24,25 +29,43 @@ public class CameraVision : MonoBehaviour
 			transform.Rotate(0, 2, 0);
 		}
 
+        Vector3 move = new Vector3(); ;
+        Vector3 oldPosition = transform.position;
+
 		if(Input.GetKey("w"))
 		{
-			transform.position += transform.forward * Time.deltaTime * 5;
+            move += transform.forward * Time.deltaTime * 5;
 		}
 
 		if(Input.GetKey("s"))
 		{
-			transform.position += transform.forward * -5 * Time.deltaTime;
+            move += transform.forward * -5 * Time.deltaTime;
 		}
 
 		if(Input.GetKey("d"))
 		{
-			transform.position += transform.right * Time.deltaTime * 5;
+            move += transform.right * Time.deltaTime * 5;
 		}
 			
 		if(Input.GetKey("a"))
 		{
-			transform.position += transform.right * -5 * Time.deltaTime;
+            move += transform.right * -5 * Time.deltaTime;
 		}
+
+        RaycastHit wallHit;
+        Ray wallDetector = new Ray(this.transform.position, move);
+
+        if (Physics.Raycast(wallDetector, out wallHit, 1f))
+        {
+            if (wallHit.collider.gameObject.CompareTag("StopMoveInfo"))
+            {
+                this.transform.position += move;
+            }
+        }
+        else
+        {
+            this.transform.position += move;
+        }
 
         RaycastHit hit;
         Ray ray = new Ray(this.transform.position, -this.transform.up);
@@ -65,6 +88,11 @@ public class CameraVision : MonoBehaviour
                 else
                 {
                     this.transform.position -= new Vector3(0, hit.distance - 1.83f, 0);
+
+					if(hit.transform.CompareTag("LevelEnd"))
+					{
+						Application.LoadLevel("Level1");
+					}
                 }
             }
             else
