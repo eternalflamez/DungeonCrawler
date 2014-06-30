@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using Assets.Scripts;
 
 public class Monster : MonoBehaviour {
 	public GameObject player;
@@ -15,20 +16,51 @@ public class Monster : MonoBehaviour {
     protected NavMeshAgent agent;
 	private bool playedAnimation = false;
     private Vector3 lastFramePosition;
+    private GameObject fireWall;
+    private ArrayList particleSystems;
 
 	// Use this for initialization
 	void Start () {
         agent = (NavMeshAgent) GetComponent("NavMeshAgent");
-		health = 20;
-		damage = 12;
-		speed = 5;
-		attackSpeed = 1;
-		attackRadius = 2;
-		lastAttacked = 0;
+
+        particleSystems = new ArrayList();
+        fireWall = Resources.Load<GameObject>("FireWall");
+
+        if (health == 0)
+        {
+            health = 20;
+        }
+
+        if (damage == 0)
+        {
+            damage = 12;
+        }
+
+        if (speed == 0)
+        {
+            speed = 5;
+        }
+
+        if (attackSpeed == 0)
+        {
+            attackSpeed = 1;
+        }
+
+        if (attackRadius == 0)
+        {
+            attackRadius = 2;
+        }
+
+        if (lastAttacked == 0)
+        {
+            lastAttacked = 0;
+        }
+
         if (detectRadius == 0)
         {
             detectRadius = 25;
         }
+
 		dead = false;
         lastFramePosition = transform.position;
         agent.speed = this.speed;
@@ -75,6 +107,24 @@ public class Monster : MonoBehaviour {
             }
         }
 
+        ArrayList toRemove = new ArrayList();
+
+        foreach (GameObject item in particleSystems)
+        {
+            if (item != null)
+            {
+                item.transform.position = currentFrame + transform.up * 1.3f;
+            }
+            else
+            {
+                toRemove.Add(item);
+            }
+        }
+
+        for (int i = 0; i < toRemove.Count; i++)
+        {
+            particleSystems.Remove(toRemove[i]);
+        }
         
         if (currentSpeed <= 0.1)
         {
@@ -119,10 +169,33 @@ public class Monster : MonoBehaviour {
 		}
 		else if(col.tag == "Spell")
 		{
-			health -= float.Parse(col.name);
+            float f = float.Parse(col.name.Split('/')[0]);
+            health -= f;
+
+            String sElement = col.name.Split('/')[1];
+
+            Element e = (Element)Enum.Parse(typeof(Element), sElement);
+
+            GameObject instance = new GameObject();
+
+            switch (e)
+            {
+                case Element.Fire:
+                    instance = (GameObject) Instantiate(fireWall, transform.position + transform.up * 1.3f, new Quaternion());
+                    particleSystems.Add(instance);
+                    Destroy(instance, 2);
+                    break;
+                case Element.Ice:
+
+                    break;
+                case Element.None:
+                    break;
+            }
 
 			if(health <= 0)
 			{
+                Destroy(instance, .5f);
+
 				dead = true;
                 agent.SetDestination(transform.position);
                 agent.speed = 0;

@@ -51,6 +51,7 @@
      <Compile Include="Assets\Scripts\Crosshair.cs" />
      <Compile Include="Assets\Scripts\Dead.cs" />
      <Compile Include="Assets\Scripts\DragItem.cs" />
+     <Compile Include="Assets\Scripts\Element.cs" />
      <Compile Include="Assets\Scripts\LeapController.cs" />
      <Compile Include="Assets\Scripts\Menu.cs" />
      <Compile Include="Assets\Scripts\Monster.cs" />
@@ -58,7 +59,6 @@
      <Compile Include="Assets\Scripts\PlayerHealth1.cs" />
      <Compile Include="Assets\Scripts\Spell.cs" />
      <Compile Include="Assets\Scripts\SpellParticle.cs" />
-     <Compile Include="Assets\Scripts\Spell_ElectricBall.cs" />
      <Compile Include="Assets\Scripts\Spell_Fireball.cs" />
      <Compile Include="Assets\Scripts\TutorialCamera.cs" />
      <Compile Include="Assets\Scripts\TutorialMonster.cs" />

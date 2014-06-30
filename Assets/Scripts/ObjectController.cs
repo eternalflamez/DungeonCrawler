@@ -80,8 +80,7 @@ namespace AssemblyCSharp
 		{
 			if(timeLastSpell > spellDelay)
 			{
-				Spell spell = new Spell_Fireball(); // Default value.
-				bool cast = true; // Won't be cast if the spellname isn't recognised.
+				Spell spell; // Default value.
 				int positionAdjustment = 1; // How far the object is placed forward (in front of the player)
 				int rotation = 0;
 
@@ -91,31 +90,26 @@ namespace AssemblyCSharp
 						spell = new Spell_Fireball();
 						rotation = 90;
 						break;
-					case "Frost Ray":
-						spell = new Spell_ElectricBall();
-						positionAdjustment = 2;
-						break;
 
 					default:
-						cast = false;
-							break;
+                        return;
 				}
 
-				if(cast)
-				{
-					addObject(spell);
-					GameObject spellObj = Instantiate(spell.getObject(), Camera.main.transform.position, Camera.main.transform.rotation) as GameObject;
-					spellObj.transform.position += spellObj.transform.forward * positionAdjustment;
-					spellObj.name = (spell.getDamage() + 1).ToString();
-					spellObj.tag = "Spell";
+				addObject(spell);
+				GameObject spellObj = Instantiate(spell.getObject(), Camera.main.transform.position, Camera.main.transform.rotation) as GameObject;
+				spellObj.transform.position += spellObj.transform.forward * positionAdjustment;
 
-					spell.setDirection (Camera.main.transform.forward);
+                String damageString = spell.getDamage().ToString();
 
-					spellObj.transform.Rotate(rotation, 0, 0);
-					spell.setObject(spellObj);
+                spellObj.name = damageString + "/" + spell.getElement().ToString();
+				spellObj.tag = "Spell";
 
-					timeLastSpell = 0;
-				}
+				spell.setDirection (Camera.main.transform.forward);
+
+				spellObj.transform.Rotate(rotation, 0, 0);
+				spell.setObject(spellObj);
+
+				timeLastSpell = 0;
 			}
 		}
 	}
