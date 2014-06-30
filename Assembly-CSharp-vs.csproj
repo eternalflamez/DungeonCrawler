@@ -50,6 +50,7 @@
      <Compile Include="Assets\Menu.cs" />
      <Compile Include="Assets\Scripts\AiController.cs" />
      <Compile Include="Assets\Scripts\CameraVision.cs" />
+     <Compile Include="Assets\Scripts\Crosshair.cs" />
      <Compile Include="Assets\Scripts\DragItem.cs" />
      <Compile Include="Assets\Scripts\LeapController.cs" />
      <Compile Include="Assets\Scripts\Monster.cs" />
