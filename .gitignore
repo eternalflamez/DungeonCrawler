@@ -6,6 +6,7 @@ Temp/
 /Library/*
 /Assets/*
 *.meta
+*.exr
 
 #build stuff
 obj/
@@ -246,3 +247,4 @@ Library/metadata/40/40e3eb9774c48eb4295d687b7b198b6b
 *.dll
 *.mdb
 Library/CurrentLayout.dwlt
+*.exr
