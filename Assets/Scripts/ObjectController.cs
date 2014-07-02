@@ -91,6 +91,10 @@ namespace AssemblyCSharp
 						rotation = 90;
 						break;
 
+                    case "FrostOrb":
+                        spell = new Spell_FrostOrb();
+                        break;
+
 					default:
                         return;
 				}

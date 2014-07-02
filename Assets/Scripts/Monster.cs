@@ -18,9 +18,14 @@ public class Monster : MonoBehaviour {
     private Vector3 lastFramePosition;
     private GameObject fireWall;
     private ArrayList particleSystems;
+    private float slowTimerTotal = 2f;
+    private float slowTimer = 0;
+    private bool slowed = false;
+    private int slowSpeedReduction;
 
 	// Use this for initialization
 	void Start () {
+        
         agent = (NavMeshAgent) GetComponent("NavMeshAgent");
 
         particleSystems = new ArrayList();
@@ -60,6 +65,7 @@ public class Monster : MonoBehaviour {
         {
             detectRadius = 25;
         }
+        slowSpeedReduction = (int)speed;
 
 		dead = false;
         lastFramePosition = transform.position;
@@ -67,9 +73,22 @@ public class Monster : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Update () {
-		if(!dead)
+	void Update () 
+    {
+        if(!dead)
 		{
+            if (slowed)
+            {
+                slowTimer += Time.deltaTime;
+
+                if (slowTimer >= slowTimerTotal)
+                {
+                    slowed = false;
+                    slowTimer = 0;
+                    agent.speed += slowSpeedReduction;
+                }
+            }
+
 			lastAttacked += Time.deltaTime;
 			MoveToPlayer();
 		}
@@ -186,7 +205,11 @@ public class Monster : MonoBehaviour {
                     Destroy(instance, 2);
                     break;
                 case Element.Ice:
-
+                    if (!slowed)
+                    {
+                        slowed = true;
+                        agent.speed -= slowSpeedReduction;
+                    }
                     break;
                 case Element.None:
                     break;
@@ -197,8 +220,8 @@ public class Monster : MonoBehaviour {
                 Destroy(instance, .5f);
 
 				dead = true;
-                agent.SetDestination(transform.position);
-                agent.speed = 0;
+                agent.stoppingDistance = 0;
+                agent.Stop();
 
                 SphereCollider sc = (SphereCollider) this.GetComponent("SphereCollider");
                 sc.enabled = false;

@@ -4,7 +4,6 @@ Temp/*
 *.ddl
 *.sln
 /Library/*
-/Assets/*
 *.meta
 *.exr
 

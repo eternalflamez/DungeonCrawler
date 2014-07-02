@@ -7,26 +7,36 @@ using AssemblyCSharp;
 public class LeapController : MonoBehaviour {
 	Controller controller;
     ObjectController spells;
-
+    float detectDelay = .5f;
+    float currentDelay = 0f;
+    Vector startPosition = Vector.Zero;
+    
 	// Use this for initialization
 	void Start () {
 		controller = new Controller ();
         this.gameObject.AddComponent("ObjectController");
         spells = (ObjectController) this.gameObject.GetComponent("ObjectController");
+        controller.EnableGesture(Gesture.GestureType.TYPESWIPE);
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        if (startPosition != Vector.Zero)
+        {
+            currentDelay += Time.deltaTime;
+
+            if (currentDelay > detectDelay)
+            {
+                startPosition = Vector.Zero;
+                currentDelay = 0;
+            }
+        }
+
 		spells.updateTimer(Time.deltaTime);
 
 		if(Input.GetKey("f"))
 		{
 			spells.Cast("Fireball");
-		}
-
-		if(Input.GetKey ("g"))
-		{
-			//spells.Cast("Frost Ray");
 		}
 
 		spells.moveAllObjects();
@@ -43,46 +53,53 @@ public class LeapController : MonoBehaviour {
 			Hand hand = frame.Hands [0];
 			
 			// Check if the hand has any fingers
-			FingerList fingers = hand.Fingers;
-			if (!fingers.IsEmpty) {
-				// Calculate the hand's average finger tip position
-				Vector avgPos = Vector.Zero;
-				foreach (Finger finger in fingers) {
-					avgPos += finger.TipPosition;
-				}
-				avgPos /= fingers.Count;
-			//	Debug.Log ("Hand has " + fingers.Count
-			//	               + " fingers, average finger tip position: " + avgPos);
-			}
-			
-			// Get the hand's sphere radius and palm position
-			//Debug.Log ("Hand sphere radius: " + hand.SphereRadius.ToString ("n2")
-			//               + " mm, palm position: " + hand.PalmPosition);
-			
-			// Get the hand's normal vector and direction
-			//Vector normal = hand.PalmNormal;
-			//Vector direction = hand.Direction;
-			
-			// Calculate the hand's pitch, roll, and yaw angles
-			//Debug.Log ("Hand pitch: " + direction.Pitch * 180.0f / (float)Math.PI + " degrees, "
-			//               + "roll: " + normal.Roll * 180.0f / (float)Math.PI + " degrees, "
-			//               + "yaw: " + direction.Yaw * 180.0f / (float)Math.PI + " degrees");
-		}
-		
-		// Get gestures
-		GestureList gestures = frame.Gestures ();
+			FingerList fingers = hand.Fingers.Extended();
 
-		for (int i = 0; i < gestures.Count; i++) {
-			Gesture gesture = gestures [i];
-
-            if (gesture.Hands.Count > 0)
+            if (fingers.IsEmpty)
             {
+                startPosition = hand.PalmPosition;
+                currentDelay = 0;
+            }
+            else if (!startPosition.Equals(Vector.Zero))
+            {
+                if (fingers.Count >= 4)
+                {
+                    if (hand.PalmPosition.DistanceTo(startPosition) > 20)
+                    {
+                        // We went from fist to open hand, that moved.
+                        spells.Cast("Fireball");
 
+                        startPosition = Vector.Zero;
+                        currentDelay = 0;
+                    }
+                }
+            }
+
+            // Get gestures
+            GestureList gestures = frame.Gestures();
+
+            for (int i = 0; i < gestures.Count; i++)
+            {
+                Gesture gesture = gestures[i];
+
+                if (gesture.Type == Gesture.GestureType.TYPESWIPE)
+                {
+                    SwipeGesture swipe = new SwipeGesture(gesture);
+                    Vector3 direction = new Vector3(swipe.Direction.x, 0, 0);
+
+                    if (direction.x > 0)
+                    {
+                        // Swipe naar rechts
+                        Debug.Log("Swipe to the right");
+                    }
+                    else
+                    {
+                        // Swipe naar links
+                        Debug.Log("Swipe to the left");
+                    }
+                }
             }
 		}
-		
-		if (!frame.Hands.IsEmpty || !frame.Gestures ().IsEmpty) {
-			//Debug.Log ("");
-		}
+
 	}
 }
