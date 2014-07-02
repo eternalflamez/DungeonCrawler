@@ -13,10 +13,6 @@ public class LeapController : MonoBehaviour {
 		controller = new Controller ();
         this.gameObject.AddComponent("ObjectController");
         spells = (ObjectController) this.gameObject.GetComponent("ObjectController");
-		controller.EnableGesture (Gesture.GestureType.TYPECIRCLE);
-		controller.EnableGesture (Gesture.GestureType.TYPEKEYTAP);
-		controller.EnableGesture (Gesture.GestureType.TYPESCREENTAP);
-		controller.EnableGesture (Gesture.GestureType.TYPESWIPE);
 	}
 	
 	// Update is called once per frame
@@ -75,72 +71,14 @@ public class LeapController : MonoBehaviour {
 		
 		// Get gestures
 		GestureList gestures = frame.Gestures ();
+
 		for (int i = 0; i < gestures.Count; i++) {
 			Gesture gesture = gestures [i];
-			
-			switch (gesture.Type) {
-			case Gesture.GestureType.TYPECIRCLE:
-				CircleGesture circle = new CircleGesture (gesture);
-				
-				// Calculate clock direction using the angle between circle normal and pointable
-				string clockwiseness;
-				if (circle.Pointable.Direction.AngleTo (circle.Normal) <= Math.PI / 4) {
-					//Clockwise if angle is less than 90 degrees
-					clockwiseness = "clockwise";
-					spells.Cast("Fireball");
-				} else {
-					clockwiseness = "counterclockwise";
-				}
-				
-				float sweptAngle = 0;
-				
-				// Calculate angle swept since last frame
-				if (circle.State != Gesture.GestureState.STATESTART) {
-					CircleGesture previousUpdate = new CircleGesture (controller.Frame (1).Gesture (circle.Id));
-					sweptAngle = (circle.Progress - previousUpdate.Progress) * 360;
-				}
-				
-				/*Debug.Log ("Circle id: " + circle.Id
-				               + ", " + circle.State
-				               + ", progress: " + circle.Progress
-				               + ", radius: " + circle.Radius
-				               + ", angle: " + sweptAngle
-				               + ", " + clockwiseness);*/
-				break;
-			case Gesture.GestureType.TYPESWIPE:
-				SwipeGesture swipe = new SwipeGesture (gesture);
 
-				Debug.Log ("Swipe id: " + swipe.Id
-				               + ", " + swipe.State
-				               + ", position: " + swipe.Position
-				               + ", direction: " + swipe.Direction
-				               + ", speed: " + swipe.Speed);
+            if (gesture.Hands.Count > 0)
+            {
 
-
-				//Vector3 direction = new Vector3(swipe.Direction.x, 0, 0);
-
-
-				break;
-			case Gesture.GestureType.TYPEKEYTAP:
-				KeyTapGesture keytap = new KeyTapGesture (gesture);
-				Debug.Log ("Tap id: " + keytap.Id
-				               + ", " + keytap.State
-				               + ", position: " + keytap.Position
-				               + ", direction: " + keytap.Direction);
-				break;
-			case Gesture.GestureType.TYPESCREENTAP:
-				ScreenTapGesture screentap = new ScreenTapGesture (gesture);
-				Debug.Log ("Tap id: " + screentap.Id
-				               + ", " + screentap.State
-				               + ", position: " + screentap.Position
-				               + ", direction: " + screentap.Direction);
-				//spells.Cast("Frost Ray");
-
-				break;
-			default:
-				Debug.Log ("Unknown gesture type.");
-				break;
-			}
+            }
 		}
 		
 		if (!frame.Hands.IsEmpty || !frame.Gestures ().IsEmpty) {
