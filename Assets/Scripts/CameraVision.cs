@@ -61,6 +61,14 @@ public class CameraVision : MonoBehaviour
             {
                 this.transform.position += move;
             }
+			if (wallHit.collider.gameObject.CompareTag("StartBossInfo"))
+			{
+				this.transform.position += move;
+			}
+			if (wallHit.collider.gameObject.CompareTag("StopBossInfo"))
+			{
+				this.transform.position += move;
+			}
         }
         else
         {
