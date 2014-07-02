@@ -51,6 +51,7 @@
      <Compile Include="Assets\Scripts\Crosshair.cs" />
      <Compile Include="Assets\Scripts\Dead.cs" />
      <Compile Include="Assets\Scripts\DragItem.cs" />
+     <Compile Include="Assets\Scripts\Element.cs" />
      <Compile Include="Assets\Scripts\GeneralInfo.cs" />
      <Compile Include="Assets\Scripts\LeapController.cs" />
      <Compile Include="Assets\Scripts\Menu.cs" />
@@ -63,6 +64,9 @@
      <Compile Include="Assets\Scripts\TutorialCamera.cs" />
      <Compile Include="Assets\Scripts\TutorialMonster.cs" />
      <None Include="Assets\Medieval Environment\Shaders\Blend SM2.shader" />
+ <Reference Include="LeapCSharp.NET3.5">
+ <HintPath>Assets\LeapCSharp.NET3.5.dll</HintPath>
+ </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
