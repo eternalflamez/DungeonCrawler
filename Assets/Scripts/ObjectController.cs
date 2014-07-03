@@ -83,12 +83,14 @@ namespace AssemblyCSharp
 				Spell spell; // Default value.
 				int positionAdjustment = 1; // How far the object is placed forward (in front of the player)
 				int rotation = 0;
+                string particleName = "";
 
 				switch (spellName) 
 				{
 					case "Fireball":
 						spell = new Spell_Fireball();
 						rotation = 90;
+                        particleName = "FireWall";
 						break;
 
                     case "FrostOrb":
@@ -115,6 +117,7 @@ namespace AssemblyCSharp
 
                 spellObj.SendMessage("setSpeed", spell.getSpeed());
                 spellObj.SendMessage("setDirection", spell.getDirection());
+                spellObj.SendMessage("setParticles", particleName);
 
 				timeLastSpell = 0;
 			}

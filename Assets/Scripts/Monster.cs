@@ -4,6 +4,9 @@ using System;
 using Assets.Scripts;
 
 public class Monster : MonoBehaviour {
+    public float dropChance = 1f;
+    public Transform dropPrefab1;
+    public Transform dropPrefab2;
 	public GameObject player;
 	public float health;
 	public float damage;
@@ -21,7 +24,7 @@ public class Monster : MonoBehaviour {
     private float slowTimerTotal = 2f;
     private float slowTimer = 0;
     private bool slowed = false;
-    private int slowSpeedReduction;
+    private float slowSpeedReduction;
 
 	// Use this for initialization
 	void Start () {
@@ -65,7 +68,7 @@ public class Monster : MonoBehaviour {
         {
             detectRadius = 25;
         }
-        slowSpeedReduction = (int)speed;
+        slowSpeedReduction = speed * .4f;
 
 		dead = false;
         lastFramePosition = transform.position;
@@ -225,6 +228,27 @@ public class Monster : MonoBehaviour {
 
                 SphereCollider sc = (SphereCollider) this.GetComponent("SphereCollider");
                 sc.enabled = false;
+
+                System.Random r = new System.Random();
+                int dropC = r.Next(0, (int)(1f / dropChance));
+
+                if (dropC == 0)
+                {
+                    int DropC1 = r.Next(0, 2);
+
+                    switch (DropC1)
+                    {
+                        case 0:
+                            Instantiate(dropPrefab1, this.transform.position, this.transform.rotation);
+                            break;
+                        case 1:
+                            Instantiate(dropPrefab2, this.transform.position, this.transform.rotation);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
 			}
 
 			col.tag = "UsedSpell";

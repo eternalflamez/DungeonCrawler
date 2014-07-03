@@ -41,6 +41,11 @@ public class LeapController : MonoBehaviour {
 			spells.Cast("Fireball");
 		}
 
+        if (Input.GetKey("g"))
+        {
+            spells.Cast("FrostOrb");
+        }
+
 		spells.moveAllObjects();
 
 		foreach (Spell item in spells.getFinishedObjects()) 

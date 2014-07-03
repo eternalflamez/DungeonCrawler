@@ -4,10 +4,11 @@ using System.Collections;
 public class WallDetector : MonoBehaviour {
     float speed;
     Vector3 direction;
+    GameObject particles = null;
 
 	// Use this for initialization
 	void Start () {
-	
+        
 	}
 	
 	// Update is called once per frame
@@ -20,9 +21,14 @@ public class WallDetector : MonoBehaviour {
 
         if (Physics.Raycast(wallDetector, out wallHit, 1f))
         {
-            if (wallHit.collider.gameObject.CompareTag("Untagged"))
+            if (wallHit.collider.gameObject.CompareTag("Environment"))
             {
                 this.tag = "UsedSpell";
+                if (particles != null)
+                {
+                    GameObject instance = (GameObject)Instantiate(particles, transform.position + speed * direction * Time.deltaTime, new Quaternion());
+                    Destroy(instance, 2);
+                }
             }
         }
 	}
@@ -35,5 +41,13 @@ public class WallDetector : MonoBehaviour {
     void setDirection(Vector3 direction)
     {
         this.direction = direction;
+    }
+
+    void setParticles(string particlesName)
+    {
+        if (particlesName != "")
+        {
+            this.particles = Resources.Load<GameObject>(particlesName);
+        }
     }
 }

@@ -6,6 +6,7 @@ public class CameraVision : MonoBehaviour
 {
     private bool falling;
     private int fallingTime;
+    private float speed = 5;
 
 	void Start() {
         falling = false;
@@ -34,22 +35,22 @@ public class CameraVision : MonoBehaviour
 
 		if(Input.GetKey("w"))
 		{
-            move += transform.forward * Time.deltaTime * 5;
+            move += transform.forward * Time.deltaTime * speed;
 		}
 
 		if(Input.GetKey("s"))
 		{
-            move += transform.forward * -5 * Time.deltaTime;
+            move += transform.forward * -speed * Time.deltaTime;
 		}
 
 		if(Input.GetKey("d"))
 		{
-            move += transform.right * Time.deltaTime * 5;
+            move += transform.right * Time.deltaTime * speed;
 		}
 			
 		if(Input.GetKey("a"))
 		{
-            move += transform.right * -5 * Time.deltaTime;
+            move += transform.right * -speed * Time.deltaTime;
 		}
 
         RaycastHit wallHit;
@@ -57,18 +58,16 @@ public class CameraVision : MonoBehaviour
 
         if (Physics.Raycast(wallDetector, out wallHit, 1f))
         {
-            if (wallHit.collider.gameObject.CompareTag("StopMoveInfo"))
+            if (wallHit.collider.gameObject.CompareTag("StopMoveInfo")
+                || wallHit.collider.gameObject.CompareTag("StartBossInfo")
+                || wallHit.collider.gameObject.CompareTag("StopBossInfo"))
             {
                 this.transform.position += move;
             }
-			if (wallHit.collider.gameObject.CompareTag("StartBossInfo"))
-			{
-				this.transform.position += move;
-			}
-			if (wallHit.collider.gameObject.CompareTag("StopBossInfo"))
-			{
-				this.transform.position += move;
-			}
+            else if (wallHit.collider.gameObject.CompareTag("Potion"))
+            {
+                
+            }
         }
         else
         {
