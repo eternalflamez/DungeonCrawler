@@ -91,6 +91,10 @@ namespace AssemblyCSharp
 						rotation = 90;
 						break;
 
+                    case "FrostOrb":
+                        spell = new Spell_FrostOrb();
+                        break;
+
 					default:
                         return;
 				}
@@ -103,11 +107,14 @@ namespace AssemblyCSharp
 
                 spellObj.name = damageString + "/" + spell.getElement().ToString();
 				spellObj.tag = "Spell";
-
+                spellObj.AddComponent("WallDetector");
 				spell.setDirection (Camera.main.transform.forward);
 
 				spellObj.transform.Rotate(rotation, 0, 0);
 				spell.setObject(spellObj);
+
+                spellObj.SendMessage("setSpeed", spell.getSpeed());
+                spellObj.SendMessage("setDirection", spell.getDirection());
 
 				timeLastSpell = 0;
 			}
