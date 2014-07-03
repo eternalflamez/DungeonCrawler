@@ -3,40 +3,43 @@ using System.Collections;
 using System;
 using Assets.Scripts;
 
-public class Monster : MonoBehaviour {
-    public float dropChance = 1f;
+public class Monster : MonoBehaviour
+{
+    public float dropChance;
     public Transform dropPrefab1;
     public Transform dropPrefab2;
-	public GameObject player;
-	public float health;
-	public float damage;
-	public float speed;
-	public float attackSpeed;
-	public float lastAttacked;
-	public float attackRadius;
-	public float detectRadius;
-	public bool dead;
+    public GameObject player;
+    public float health;
+    public float damage;
+    public float speed;
+    public float attackSpeed;
+    public float lastAttacked;
+    public float attackRadius;
+    public float detectRadius;
+    public bool dead;
     protected NavMeshAgent agent;
-	private bool playedAnimation = false;
+    private bool playedAnimation = false;
     private Vector3 lastFramePosition;
-    private GameObject fireWall;
-    private ArrayList particleSystems;
+    protected GameObject fireWall;
+    protected GameObject iceEffect;
+    protected ArrayList particleSystems;
     private float slowTimerTotal = 2f;
     private float slowTimer = 0;
-    private bool slowed = false;
-    private float slowSpeedReduction;
+    protected bool slowed = false;
+    protected float slowSpeedReduction;
 
-	// Use this for initialization
-	void Start () {
-        
-        agent = (NavMeshAgent) GetComponent("NavMeshAgent");
+    // Use this for initialization
+    void Start()
+    {
+        agent = (NavMeshAgent)GetComponent("NavMeshAgent");
 
         particleSystems = new ArrayList();
         fireWall = Resources.Load<GameObject>("FireWall");
+        iceEffect = Resources.Load<GameObject>("mobFrozen");
 
         if (health == 0)
         {
-            health = 20;
+            health = 15;
         }
 
         if (damage == 0)
@@ -69,17 +72,17 @@ public class Monster : MonoBehaviour {
             detectRadius = 25;
         }
         slowSpeedReduction = speed * .4f;
-
-		dead = false;
+        dropChance = .25f;
+        dead = false;
         lastFramePosition = transform.position;
         agent.speed = this.speed;
-	}
-	
-	// Update is called once per frame
-	void Update () 
+    }
+
+    // Update is called once per frame
+    void Update()
     {
-        if(!dead)
-		{
+        if (!dead)
+        {
             if (slowed)
             {
                 slowTimer += Time.deltaTime;
@@ -92,20 +95,20 @@ public class Monster : MonoBehaviour {
                 }
             }
 
-			lastAttacked += Time.deltaTime;
-			MoveToPlayer();
-		}
-		else if(!playedAnimation)
-		{
-			playedAnimation = true;
-			animation.Play("die");
-			animation.wrapMode = WrapMode.Once;
-			animation.PlayQueued("dead");
-		}
-	}
+            lastAttacked += Time.deltaTime;
+            MoveToPlayer();
+        }
+        else if (!playedAnimation)
+        {
+            playedAnimation = true;
+            animation.Play("die");
+            animation.wrapMode = WrapMode.Once;
+            animation.PlayQueued("dead");
+        }
+    }
 
-	protected void MoveToPlayer()
-	{
+    protected void MoveToPlayer()
+    {
         Vector3 currentFrame = transform.position;
         float distance = Vector3.Distance(currentFrame, lastFramePosition);
 
@@ -147,47 +150,47 @@ public class Monster : MonoBehaviour {
         {
             particleSystems.Remove(toRemove[i]);
         }
-        
+
         if (currentSpeed <= 0.1)
         {
             animation.PlayQueued("idle");
         }
-	}
+    }
 
-	protected bool AimAtPlayer()
-	{
-		float pX = player.transform.position.x;
-		float pZ = player.transform.position.z;
-		
-		float x = transform.position.x;
-		float z = transform.position.z;
+    protected bool AimAtPlayer()
+    {
+        float pX = player.transform.position.x;
+        float pZ = player.transform.position.z;
 
-		if(lastAttacked > attackSpeed)
-		{
-			if (pX > x - attackRadius && pX < x + attackRadius && pZ > z - attackRadius && pZ < z + attackRadius)
-			{
-				// ATTACK! 
-				lastAttacked = 0;
+        float x = transform.position.x;
+        float z = transform.position.z;
 
-				System.Random r = new System.Random();
+        if (lastAttacked > attackSpeed)
+        {
+            if (pX > x - attackRadius && pX < x + attackRadius && pZ > z - attackRadius && pZ < z + attackRadius)
+            {
+                // ATTACK! 
+                lastAttacked = 0;
 
-				animation.Play("hit" + r.Next(1, 3), PlayMode.StopAll);
+                System.Random r = new System.Random();
 
-				player.SendMessage("AdjustcurHealth", damage * -1);
-			}
-		}
+                animation.Play("hit" + r.Next(1, 3), PlayMode.StopAll);
+
+                player.SendMessage("AdjustcurHealth", damage * -1);
+            }
+        }
 
         if (pX > x - attackRadius && pX < x + attackRadius && pZ > z - attackRadius && pZ < z + attackRadius)
         {
             return true;
         }
         return false;
-	}
+    }
 
-	public virtual void OnTriggerEnter(Collider col)
-	{
-		if(col.tag == "Spell")
-		{
+    public virtual void OnTriggerEnter(Collider col)
+    {
+        if (col.tag == "Spell")
+        {
             float f = float.Parse(col.name.Split('/')[0]);
             health -= f;
 
@@ -200,7 +203,7 @@ public class Monster : MonoBehaviour {
             switch (e)
             {
                 case Element.Fire:
-                    instance = (GameObject) Instantiate(fireWall, transform.position + transform.up * 1.3f, new Quaternion());
+                    instance = (GameObject)Instantiate(fireWall, transform.position + transform.up * 1.3f, new Quaternion());
                     particleSystems.Add(instance);
                     Destroy(instance, 2);
                     break;
@@ -210,26 +213,30 @@ public class Monster : MonoBehaviour {
                         slowed = true;
                         agent.speed -= slowSpeedReduction;
                     }
+                    instance = (GameObject)Instantiate(iceEffect, transform.position + transform.up * 1.3f, new Quaternion());
+                    particleSystems.Add(instance);
+                    Destroy(instance, 2);
                     break;
                 case Element.None:
                     break;
             }
 
-			if(health <= 0)
-			{
+            if (health <= 0)
+            {
                 if (instance != null)
                 {
                     Destroy(instance, .5f);
                 }
 
-				dead = true;
+                dead = true;
                 agent.stoppingDistance = 0;
                 agent.Stop();
 
-                SphereCollider sc = (SphereCollider) this.GetComponent("SphereCollider");
+                SphereCollider sc = (SphereCollider)this.GetComponent("SphereCollider");
                 sc.enabled = false;
 
                 System.Random r = new System.Random();
+
                 int dropC = r.Next(0, (int)(1f / dropChance));
 
                 if (dropC == 0)
@@ -239,19 +246,21 @@ public class Monster : MonoBehaviour {
                     switch (DropC1)
                     {
                         case 0:
-                            Instantiate(dropPrefab1, this.transform.position, this.transform.rotation);
+                            GameObject potion = ((Transform)Instantiate(dropPrefab1, this.transform.position += new Vector3(0, 1.5f, 0), this.transform.rotation)).gameObject;
+                            potion.name = "Potion1";
                             break;
                         case 1:
-                            Instantiate(dropPrefab2, this.transform.position, this.transform.rotation);
+                            GameObject potion2 = ((Transform)Instantiate(dropPrefab2, this.transform.position += new Vector3(0, 1.5f, 0), this.transform.rotation)).gameObject;
+                            potion2.name = "Potion2";
                             break;
                         default:
                             break;
                     }
                 }
 
-			}
+            }
 
-			col.tag = "UsedSpell";
-		}
-	}
+            col.tag = "UsedSpell";
+        }
+    }
 }

@@ -55,8 +55,10 @@
      <Compile Include="Assets\Scripts\Element.cs" />
      <Compile Include="Assets\Scripts\GeneralInfo.cs" />
      <Compile Include="Assets\Scripts\LeapController.cs" />
+     <Compile Include="Assets\Scripts\Lever.cs" />
      <Compile Include="Assets\Scripts\Menu.cs" />
      <Compile Include="Assets\Scripts\Monster.cs" />
+     <Compile Include="Assets\Scripts\MonsterDeadCheck.cs" />
      <Compile Include="Assets\Scripts\ObjectController.cs" />
      <Compile Include="Assets\Scripts\PlayerHealth1.cs" />
      <Compile Include="Assets\Scripts\Spell.cs" />
@@ -69,6 +71,8 @@
      <None Include="Assets\Medieval Environment\Shaders\Blend SM2.shader" />
  <Reference Include="LeapCSharp.NET3.5">
  <HintPath>Assets\Plugins\LeapCSharp.NET3.5.dll</HintPath>
+ <HintPath>C:/Users/Sander/Documents/GitHub/DungeonCrawler/Assets/Plugins/LeapCSharp.NET3.5.dll</HintPath>
+ <HintPath>Assets\LeapCSharp.NET3.5.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

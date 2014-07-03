@@ -7,10 +7,13 @@ using AssemblyCSharp;
 public class LeapController : MonoBehaviour {
 	Controller controller;
     ObjectController spells;
-    float detectDelay = .5f;
+    float detectDelay = 100f;
     float currentDelay = 0f;
     Vector startPosition = Vector.Zero;
+    Frame startFrame = Frame.Invalid;
+    float handRotation;
     bool fistDetected;
+    bool palmDetected;
     
 	// Use this for initialization
 	void Start () {
@@ -19,18 +22,24 @@ public class LeapController : MonoBehaviour {
         spells = (ObjectController) this.gameObject.GetComponent("ObjectController");
         controller.EnableGesture(Gesture.GestureType.TYPESWIPE);
         fistDetected = false;
+        palmDetected = false;
+        handRotation = 0;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (startPosition != Vector.Zero)
+        if (!startPosition.Equals(Vector.Zero) || !startFrame.Equals(Frame.Invalid))
         {
             currentDelay += Time.deltaTime;
 
             if (currentDelay > detectDelay)
             {
                 startPosition = Vector.Zero;
+                startFrame = Frame.Invalid;
                 currentDelay = 0;
+                handRotation = 0;
+                palmDetected = false;
+                fistDetected = false;
             }
         }
 
@@ -64,17 +73,29 @@ public class LeapController : MonoBehaviour {
 
             if (!startPosition.Equals(Vector.Zero) && fistDetected)
             {
-                if (fingers.Count >= 4)
+                if (fingers.Count >= 4 && hand.PalmPosition.DistanceTo(startPosition) > 20)
                 {
-                    if (hand.PalmPosition.DistanceTo(startPosition) > 20)
-                    {
-                        // We went from fist to open hand, that moved.
-                        spells.Cast("Fireball");
+                    // We went from fist to open hand, that moved.
+                    spells.Cast("Fireball");
 
-                        startPosition = Vector.Zero;
-                        currentDelay = 0;
-                        fistDetected = false;
-                    }
+                    startPosition = Vector.Zero;
+                    currentDelay = 0;
+                    fistDetected = false;
+                }
+            }
+
+            if(!startFrame.Equals(Frame.Invalid) && palmDetected)
+            {
+                handRotation += frame.RotationAngle(startFrame, Vector.ZAxis);
+                Debug.Log(handRotation);
+                if (Mathf.Abs(handRotation) > 80)
+                {
+                    spells.Cast("FrostOrb");
+
+                    startFrame = Frame.Invalid;
+                    currentDelay = 0;
+                    palmDetected = false;
+                    handRotation = 0;
                 }
             }
 
@@ -83,6 +104,16 @@ public class LeapController : MonoBehaviour {
                 startPosition = hand.PalmPosition;
                 currentDelay = 0;
                 fistDetected = true;
+                palmDetected = false;
+            }
+            else if (fingers.Count >= 4 && !palmDetected)
+            {
+                Debug.Log("Palm detected!");
+                fistDetected = false;
+                palmDetected = true;
+                currentDelay = 0;
+                startFrame = frame;
+                handRotation = 0;
             }
             
             // Get gestures
@@ -96,6 +127,8 @@ public class LeapController : MonoBehaviour {
                 {
                     SwipeGesture swipe = new SwipeGesture(gesture);
                     Vector3 direction = new Vector3(swipe.Direction.x, 0, 0);
+
+                    SendMessage("PullLever");
 
                     if (direction.x > 0)
                     {
