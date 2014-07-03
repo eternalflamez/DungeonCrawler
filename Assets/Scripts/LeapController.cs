@@ -10,6 +10,7 @@ public class LeapController : MonoBehaviour {
     float detectDelay = .5f;
     float currentDelay = 0f;
     Vector startPosition = Vector.Zero;
+    bool fireBallDetected;
     
 	// Use this for initialization
 	void Start () {
