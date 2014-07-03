@@ -64,25 +64,10 @@ public class CameraVision : MonoBehaviour
             {
                 this.transform.position += move;
             }
-<<<<<<< HEAD
             else if (wallHit.collider.gameObject.CompareTag("Potion"))
             {
                 
             }
-=======
-			if (wallHit.collider.gameObject.CompareTag("StartBossInfo"))
-			{
-				this.transform.position += move;
-			}
-			if (wallHit.collider.gameObject.CompareTag("StopBossInfo"))
-			{
-				this.transform.position += move;
-			}
-			if (wallHit.collider.gameObject.CompareTag("StopIceText"))
-			{
-				this.transform.position += move;
-			}
->>>>>>> 8a45a4c40dbcfed51b7b1c1d5e58d1d463d4c02f
         }
         else
         {
