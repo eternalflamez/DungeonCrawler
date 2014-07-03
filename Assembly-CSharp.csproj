@@ -68,7 +68,7 @@
      <Compile Include="Assets\Scripts\WallDetector.cs" />
      <None Include="Assets\Medieval Environment\Shaders\Blend SM2.shader" />
  <Reference Include="LeapCSharp.NET3.5">
- <HintPath>Assets\LeapCSharp.NET3.5.dll</HintPath>
+ <HintPath>Assets\Plugins\LeapCSharp.NET3.5.dll</HintPath>
  </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
