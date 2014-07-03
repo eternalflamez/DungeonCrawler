@@ -61,6 +61,7 @@ public class CameraVision : MonoBehaviour
             if (wallHit.collider.gameObject.CompareTag("StopMoveInfo")
                 || wallHit.collider.gameObject.CompareTag("StartBossInfo")
                 || wallHit.collider.gameObject.CompareTag("StopBossInfo"))
+
             {
                 this.transform.position += move;
             }

@@ -19,7 +19,7 @@ public class GeneralInfo : MonoBehaviour {
 
 	void OnTriggerEnter(Collider col)
 	{
-		if (col.CompareTag("StopMoveInfo") && GeneralText.activeSelf)
+		if (col.CompareTag("StopMoveInfo") /*&& GeneralText.activeSelf*/)
 		{
 			GeneralText.SetActive(false);
 			IceText.SetActive(true);
@@ -33,13 +33,9 @@ public class GeneralInfo : MonoBehaviour {
 		if (col.CompareTag("StopBossInfo") /*&& BossText.activeSelf*/)
 		{
 			BossText.SetActive(false);
-		
-		}
-		if (col.CompareTag("StopIceText") /*&& BossText.activeSelf*/)
-		{
 			IceText.SetActive(false);
-			
 		}
+
 	}
 }
 
