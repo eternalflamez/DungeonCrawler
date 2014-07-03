@@ -7,8 +7,8 @@ public class GeneralInfo : MonoBehaviour {
 	public GameObject IceText;
 	// Use this for initialization
 	void Start () {
-	BossText.SetActive(false);
-	IceText.SetActive (false);
+	    BossText.SetActive(false);
+	    IceText.SetActive (false);
 	}
 		
 
@@ -33,7 +33,6 @@ public class GeneralInfo : MonoBehaviour {
 		if (col.CompareTag("StopBossInfo") /*&& BossText.activeSelf*/)
 		{
 			BossText.SetActive(false);
-		
 		}
 		if (col.CompareTag("StopIceText") /*&& BossText.activeSelf*/)
 		{

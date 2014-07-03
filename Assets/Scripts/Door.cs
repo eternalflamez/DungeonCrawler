@@ -13,7 +13,7 @@ public class Door : MonoBehaviour
     {
         if (maxHeight == 0)
         {
-            maxHeight = (int)renderer.bounds.extents.y;
+            maxHeight = 10;
         }
     }
 

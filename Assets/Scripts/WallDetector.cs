@@ -17,8 +17,6 @@ public class WallDetector : MonoBehaviour {
         RaycastHit wallHit;
         Ray wallDetector = new Ray(this.transform.position, speed * direction * Time.deltaTime);
 
-        Debug.DrawRay(this.transform.position, speed * direction * Time.deltaTime * 100);
-
         if (Physics.Raycast(wallDetector, out wallHit, 1f))
         {
             if (wallHit.collider.gameObject.CompareTag("Environment"))

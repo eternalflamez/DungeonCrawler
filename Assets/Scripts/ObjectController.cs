@@ -95,6 +95,7 @@ namespace AssemblyCSharp
 
                     case "FrostOrb":
                         spell = new Spell_FrostOrb();
+                        particleName = "mobFrozen";
                         break;
 
 					default:
@@ -102,7 +103,7 @@ namespace AssemblyCSharp
 				}
 
 				addObject(spell);
-				GameObject spellObj = Instantiate(spell.getObject(), Camera.main.transform.position, Camera.main.transform.rotation) as GameObject;
+                GameObject spellObj = Instantiate(spell.getObject(), this.transform.position, this.transform.rotation) as GameObject;
 				spellObj.transform.position += spellObj.transform.forward * positionAdjustment;
 
                 String damageString = spell.getDamage().ToString();
@@ -110,7 +111,7 @@ namespace AssemblyCSharp
                 spellObj.name = damageString + "/" + spell.getElement().ToString();
 				spellObj.tag = "Spell";
                 spellObj.AddComponent("WallDetector");
-				spell.setDirection (Camera.main.transform.forward);
+				spell.setDirection (this.transform.forward);
 
 				spellObj.transform.Rotate(rotation, 0, 0);
 				spell.setObject(spellObj);
