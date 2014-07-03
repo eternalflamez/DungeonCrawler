@@ -69,6 +69,10 @@ public class CameraVision : MonoBehaviour
 			{
 				this.transform.position += move;
 			}
+			if (wallHit.collider.gameObject.CompareTag("StopIceText"))
+			{
+				this.transform.position += move;
+			}
         }
         else
         {

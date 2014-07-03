@@ -4,10 +4,11 @@ using System.Collections;
 public class GeneralInfo : MonoBehaviour {
 	public GameObject GeneralText;
 	public GameObject BossText;
+	public GameObject IceText;
 	// Use this for initialization
 	void Start () {
 	BossText.SetActive(false);
-
+	IceText.SetActive (false);
 	}
 		
 
@@ -21,6 +22,7 @@ public class GeneralInfo : MonoBehaviour {
 		if (col.CompareTag("StopMoveInfo") && GeneralText.activeSelf)
 		{
 			GeneralText.SetActive(false);
+			IceText.SetActive(true);
 			//BossText.SetActive(false);
 
 		}
@@ -32,6 +34,11 @@ public class GeneralInfo : MonoBehaviour {
 		{
 			BossText.SetActive(false);
 		
+		}
+		if (col.CompareTag("StopIceText") /*&& BossText.activeSelf*/)
+		{
+			IceText.SetActive(false);
+			
 		}
 	}
 }
