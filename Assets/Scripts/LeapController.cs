@@ -10,7 +10,7 @@ public class LeapController : MonoBehaviour {
     float detectDelay = .5f;
     float currentDelay = 0f;
     Vector startPosition = Vector.Zero;
-    bool fireBallDetected;
+    bool fistDetected;
     
 	// Use this for initialization
 	void Start () {
@@ -18,6 +18,7 @@ public class LeapController : MonoBehaviour {
         this.gameObject.AddComponent("ObjectController");
         spells = (ObjectController) this.gameObject.GetComponent("ObjectController");
         controller.EnableGesture(Gesture.GestureType.TYPESWIPE);
+        fistDetected = false;
 	}
 	
 	// Update is called once per frame
@@ -56,12 +57,7 @@ public class LeapController : MonoBehaviour {
 			// Check if the hand has any fingers
 			FingerList fingers = hand.Fingers.Extended();
 
-            if (fingers.IsEmpty)
-            {
-                startPosition = hand.PalmPosition;
-                currentDelay = 0;
-            }
-            else if (!startPosition.Equals(Vector.Zero))
+            if (!startPosition.Equals(Vector.Zero) && fistDetected)
             {
                 if (fingers.Count >= 4)
                 {
@@ -72,10 +68,18 @@ public class LeapController : MonoBehaviour {
 
                         startPosition = Vector.Zero;
                         currentDelay = 0;
+                        fistDetected = false;
                     }
                 }
             }
 
+            if (fingers.IsEmpty)
+            {
+                startPosition = hand.PalmPosition;
+                currentDelay = 0;
+                fistDetected = true;
+            }
+            
             // Get gestures
             GestureList gestures = frame.Gestures();
 
@@ -101,6 +105,5 @@ public class LeapController : MonoBehaviour {
                 }
             }
 		}
-
 	}
 }

@@ -183,10 +183,7 @@ public class Monster : MonoBehaviour {
 
 	public virtual void OnTriggerEnter(Collider col)
 	{
-		if (col.tag == "MainCamera") {
-			// Destroy(col.gameObject.CubePlac);
-		}
-		else if(col.tag == "Spell")
+		if(col.tag == "Spell")
 		{
             float f = float.Parse(col.name.Split('/')[0]);
             health -= f;
@@ -195,7 +192,7 @@ public class Monster : MonoBehaviour {
 
             Element e = (Element)Enum.Parse(typeof(Element), sElement);
 
-            GameObject instance = new GameObject();
+            GameObject instance = null;
 
             switch (e)
             {
@@ -217,7 +214,10 @@ public class Monster : MonoBehaviour {
 
 			if(health <= 0)
 			{
-                Destroy(instance, .5f);
+                if (instance != null)
+                {
+                    Destroy(instance, .5f);
+                }
 
 				dead = true;
                 agent.stoppingDistance = 0;

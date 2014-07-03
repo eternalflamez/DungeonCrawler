@@ -63,6 +63,7 @@
      <Compile Include="Assets\Scripts\Spell_Fireball.cs" />
      <Compile Include="Assets\Scripts\TutorialCamera.cs" />
      <Compile Include="Assets\Scripts\TutorialMonster.cs" />
+     <Compile Include="Assets\Scripts\WallDetector.cs" />
      <None Include="Assets\Medieval Environment\Shaders\Blend SM2.shader" />
  <Reference Include="LeapCSharp.NET3.5">
  <HintPath>C:/Users/Sander/Documents/GitHub/DungeonCrawler/Assets/Plugins/LeapCSharp.NET3.5.dll</HintPath>
