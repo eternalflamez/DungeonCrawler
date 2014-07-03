@@ -23,8 +23,6 @@ public class GeneralInfo : MonoBehaviour {
 		{
 			GeneralText.SetActive(false);
 			IceText.SetActive(true);
-			//BossText.SetActive(false);
-
 		}
 		if (col.CompareTag("StartBossInfo") /*&& BossText.activeSelf*/)
 		{
@@ -33,12 +31,9 @@ public class GeneralInfo : MonoBehaviour {
 		if (col.CompareTag("StopBossInfo") /*&& BossText.activeSelf*/)
 		{
 			BossText.SetActive(false);
-<<<<<<< HEAD
 		}
 		if (col.CompareTag("StopIceText") /*&& BossText.activeSelf*/)
 		{
-=======
->>>>>>> 3fd13380a0d2b2d8c642d3a86d60b08dc8db0a89
 			IceText.SetActive(false);
 		}
 

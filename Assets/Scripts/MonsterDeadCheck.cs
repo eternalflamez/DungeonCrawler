@@ -30,7 +30,7 @@ public class MonsterDeadCheck : MonoBehaviour {
 
             if (dead)
             {
-                // TODO: Load next level.
+                Application.LoadLevel("VictoryScreen");
             }
 
             timer = 0;
